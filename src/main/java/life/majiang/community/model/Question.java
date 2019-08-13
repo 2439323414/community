@@ -1,4 +1,4 @@
-package life.majiang.community.modle;
+package life.majiang.community.model;
 
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -22,7 +22,7 @@ public class Question {
     private Long gmtCreat;
     @Column(name = "gmt_modified")
     private Long gmtModified;
-    private Integer creator;
+    private String creator;
     @Column(name = "comment_count", columnDefinition = "int default 0")
     private Integer commentCount;
     @Column(name = "view_count", columnDefinition = "int default 0")

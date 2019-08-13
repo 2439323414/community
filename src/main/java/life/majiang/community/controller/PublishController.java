@@ -1,7 +1,7 @@
 package life.majiang.community.controller;
 
-import life.majiang.community.modle.Question;
-import life.majiang.community.modle.User;
+import life.majiang.community.model.Question;
+import life.majiang.community.model.User;
 import life.majiang.community.repository.QuesstionRepository;
 import life.majiang.community.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +69,7 @@ public class PublishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
-        question.setCreator(Integer.parseInt(user.getAccountId()));
+        question.setCreator(user.getAccountId());
         question.setGmtCreat(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreat());
         quesstionRepository.save(question);

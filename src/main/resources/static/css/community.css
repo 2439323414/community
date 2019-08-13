@@ -10,3 +10,8 @@ body{
     float: right;
     margin-bottom: 15px;
 }
+.text-dsc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
