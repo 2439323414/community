@@ -1,11 +1,10 @@
 package life.majiang.community.service;
 
-import life.majiang.community.dto.QuestionDTO;
+import life.majiang.community.dto.PaginationDTO;
 
-import java.util.List;
 
 public interface QuestionService {
 
 
-    List<QuestionDTO> list();
+    PaginationDTO list(Integer page, Integer size);
 }
