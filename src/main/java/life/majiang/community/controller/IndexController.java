@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 @Controller
@@ -29,19 +28,7 @@ public class IndexController {
                         Model model,
                         @RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size){
-        Cookie[] cookies = request.getCookies();
-        if(cookies!=null&&cookies.length!=0){
-            for (Cookie cookie:cookies) {
-                if ("token".equals(cookie.getName())){
-                    String token = cookie.getValue();
-                    User user = userRepository.findByToken(token);
-                    if (user!=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+
         PaginationDTO paginationDTO = questionService.list(page,size);
         model.addAttribute("pagination",paginationDTO);
         return "index";
