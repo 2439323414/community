@@ -19,8 +19,6 @@ public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
-    @Autowired
-    private UserRepository userRepository;
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action, Model model,
                           HttpServletRequest request,

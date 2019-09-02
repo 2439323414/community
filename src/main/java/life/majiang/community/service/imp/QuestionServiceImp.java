@@ -103,8 +103,7 @@ public class QuestionServiceImp implements QuestionService {
     @Override
     public QuestionDTO getById(Integer id) {
         Optional<Question> question = questionRepository.findById(id);
-
-        if(question.empty()== Optional.empty()){
+        if(!question.isPresent()){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         User user = userRepository.findByAccountId(question.get().getCreator());
@@ -120,6 +119,9 @@ public class QuestionServiceImp implements QuestionService {
             //创建
             question.setGmtCreat(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreat());
+            question.setCommentCount(0);
+            question.setLikeCount(0);
+            question.setViewCount(0);
             questionRepository.save(question);
         }else {
             //更新
@@ -127,5 +129,10 @@ public class QuestionServiceImp implements QuestionService {
             questionRepository.updateQuestion(question);
 
         }
+    }
+
+    @Override
+    public void incView(Integer id) {
+        questionRepository.updateIncView(id);
     }
 }
