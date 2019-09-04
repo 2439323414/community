@@ -9,6 +9,7 @@ import life.majiang.community.repository.CommentRepository;
 import life.majiang.community.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class CommentService {
 
     @Autowired
     private QuestionRepository questionRepository;
+    @Transactional
     public void save(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_NOT_FOUND);
