@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
 
@@ -19,4 +20,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Modifying
     @Query(value = "update User p set p.gmtModified = :#{#dbUser.gmtModified},p.avatarUrl= :#{#dbUser.avatarUrl},p.name= :#{#dbUser.name},p.token=:#{#dbUser.token} where p.accountId = :#{#dbUser.accountId}")
      void updateDbUser(@Param("dbUser") User dbUser);
+
+    List<User> findByAccountId(List<String> userIds);
 }

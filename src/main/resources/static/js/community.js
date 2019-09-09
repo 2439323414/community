@@ -13,7 +13,7 @@ function post() {
         }),
         success: function (response) {
             if (response.code == 200){
-                $("#comment_content").hidden;
+                $("#comment_section").hide();
             }else {
                 if (response.code == 2003){
                    var isAccepted = confirm(response.message);
