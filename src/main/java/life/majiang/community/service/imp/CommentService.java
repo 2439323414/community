@@ -40,10 +40,11 @@ public class CommentService {
 
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()){
             //回复评论
-            Optional<Comment> dbComment = commentRepository.findByParentId(comment.getParentId());
+            Optional<Comment> dbComment = commentRepository.findById(comment.getParentId());
             if (!dbComment.isPresent()){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NO_FOUND);
             }
+            commentRepository.incCommentCount(dbComment.get().getId());
             commentRepository.save(comment);
         }else {
             //回复问题
@@ -56,8 +57,8 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Integer id) {
-        List<Comment> comments = commentRepository.findByParentIdAndType(id, CommentTypeEnum.QUESTION.getType());
+    public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum typeEnum) {
+        List<Comment> comments = commentRepository.findByParentIdAndTypeOrderByIdDesc(id, typeEnum.getType());
 
         if (comments.size() == 0){
             return new ArrayList<>();

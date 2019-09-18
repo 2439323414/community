@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,8 @@ public class QuestionServiceImp implements QuestionService {
     @Override
     public PaginationDTO list(Integer page,Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
-        PageRequest pageRequest =PageRequest.of(page - 1, size);
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        PageRequest pageRequest =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPages = questionRepository.findAll(pageRequest);
         Integer totalPage = questionPages.getTotalPages();
         paginationDTO.setTotalPage(totalPage);
@@ -43,7 +45,7 @@ public class QuestionServiceImp implements QuestionService {
         }
         paginationDTO.setPageination(totalPage,page,size);
         paginationDTO.setPage(page);
-        PageRequest pageRequests =PageRequest.of(page - 1, size);
+        PageRequest pageRequests =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPage = questionRepository.findAll(pageRequests);
         List<Question> questions = questionPage.getContent();
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -63,7 +65,8 @@ public class QuestionServiceImp implements QuestionService {
     @Override
     public PaginationDTO list(String accountId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
-        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        PageRequest pageRequest = PageRequest.of(page - 1, size,sort);
         Specification<Question> specification = new Specification<Question>() {
             @Override
             public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -83,7 +86,7 @@ public class QuestionServiceImp implements QuestionService {
         }
         paginationDTO.setPageination(totalPage,page,size);
         paginationDTO.setPage(page);
-        PageRequest pageRequests =PageRequest.of(page - 1, size);
+        PageRequest pageRequests =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPage = questionRepository.findAll(specification,pageRequests);
         List<Question> questions = questionPage.getContent();
         List<QuestionDTO> questionDTOList = new ArrayList<>();

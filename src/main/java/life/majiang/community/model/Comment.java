@@ -27,4 +27,7 @@ public class Comment {
     private Long gmtModified;
     @Column(name = "like_count", columnDefinition = "bigint default 0")
     private long likeCount;
+    @Column(name = "comment_count", columnDefinition = "bigint default 0")
+    private long commentCount;
+
 }

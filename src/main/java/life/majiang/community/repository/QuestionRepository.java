@@ -29,4 +29,6 @@ public interface QuestionRepository extends JpaRepository<Question,Integer>, Jpa
     @Modifying
     @Query(value = "update Question p set p.commentCount = p.commentCount+1 where p.id = :id")
     void incCommentCount(@Param("id") Integer id);
+
+
 }
