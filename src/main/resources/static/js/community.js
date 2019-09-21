@@ -112,3 +112,29 @@ function collapseComments(e) {
 
     }
 }
+
+function selectTag(e) {
+    var previous = $("#tag").val();
+    var value = e.getAttribute("data-tag");
+    if (previous.indexOf(value)!=-1){
+
+    }else {
+        if(previous){
+            $("#tag").val(previous+','+value);
+        }else {
+            $("#tag").val(value);
+        }
+    }
+
+}
+
+function showSelectTag() {
+
+    // $("#tag").focus(function () {
+    //     $('#select-tag').removeClass("publish-selectTag");
+    // }) .blur(function () {
+    //     $('#select-tag').addClass("publish-selectTag");
+    // });
+    $("#select-tag").show();
+
+}

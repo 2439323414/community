@@ -28,12 +28,14 @@ public class QuestionController {
 
         QuestionDTO questionDTO = questionService.getById(id);
 
+        List<QuestionDTO> relatedQuestions = questionService.selectRelated(questionDTO);
         List<CommentDTO> commentS = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         //累加阅读数
         questionService.incView(id);
         model.addAttribute("question",questionDTO);
         model.addAttribute("comments",commentS);
+        model.addAttribute("relatedQuestions",relatedQuestions);
          return "question";
     }
 }

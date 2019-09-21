@@ -9,6 +9,7 @@ import life.majiang.community.model.User;
 import life.majiang.community.repository.QuestionRepository;
 import life.majiang.community.repository.UserRepository;
 import life.majiang.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImp implements QuestionService {
@@ -137,5 +139,23 @@ public class QuestionServiceImp implements QuestionService {
     @Override
     public void incView(Integer id) {
         questionRepository.updateIncView(id);
+    }
+
+    @Override
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        if (StringUtils.isBlank(questionDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String replace = StringUtils.replace(questionDTO.getTag(), ",", "|");
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(replace);
+        List<Question> questions = questionRepository.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO1 = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO1);
+            return questionDTO1;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question,Integer>, JpaSpecificationExecutor<Question> {
@@ -29,6 +30,10 @@ public interface QuestionRepository extends JpaRepository<Question,Integer>, Jpa
     @Modifying
     @Query(value = "update Question p set p.commentCount = p.commentCount+1 where p.id = :id")
     void incCommentCount(@Param("id") Integer id);
+
+
+    @Query(value = "SELECT * from question where id != :#{#question.id} and tag regexp :#{#question.tag} ",nativeQuery=true)
+    List<Question> selectRelated(@Param("question") Question question);
 
 
 }
