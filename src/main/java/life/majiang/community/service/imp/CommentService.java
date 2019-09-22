@@ -2,12 +2,16 @@ package life.majiang.community.service.imp;
 
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.enums.CommentTypeEnum;
+import life.majiang.community.enums.NotificationStatusEnum;
+import life.majiang.community.enums.NotificationTypeEnum;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
 import life.majiang.community.model.Comment;
+import life.majiang.community.model.Notification;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
 import life.majiang.community.repository.CommentRepository;
+import life.majiang.community.repository.NotificationRepository;
 import life.majiang.community.repository.QuestionRepository;
 import life.majiang.community.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -28,8 +32,11 @@ public class CommentService {
     private QuestionRepository questionRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
     @Transactional
-    public void save(Comment comment) {
+    public void save(Comment comment, User commentor) {
         if (comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_NOT_FOUND);
         }
@@ -44,8 +51,15 @@ public class CommentService {
             if (!dbComment.isPresent()){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NO_FOUND);
             }
+            //回复问题
+            Optional<Question> question = questionRepository.findById(dbComment.get().getParentId());
+            if (!question.isPresent()){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
             commentRepository.incCommentCount(dbComment.get().getId());
             commentRepository.save(comment);
+            //创建通知
+            createNotify(comment, dbComment.get().getCommentator(),commentor.getName(), question.get().getTitle(),NotificationTypeEnum.REPLY_COMMENT, dbComment.get().getParentId());
         }else {
             //回复问题
             Optional<Question> question = questionRepository.findById(comment.getParentId());
@@ -54,7 +68,22 @@ public class CommentService {
             }
             commentRepository.save(comment);
             questionRepository.incCommentCount(question.get().getId());
+            //创建通知
+            createNotify(comment,question.get().getCreator(),commentor.getName(),question.get().getTitle(),NotificationTypeEnum.REPLY_QUESTION, comment.getParentId());
         }
+    }
+
+    private void createNotify(Comment comment, String receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer outerId) {
+        Notification notification = new Notification();
+        notification.setGmtCreat(System.currentTimeMillis());
+        notification.setType(notificationType.getType());
+        notification.setOuterId(outerId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationRepository.save(notification);
     }
 
     public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum typeEnum) {

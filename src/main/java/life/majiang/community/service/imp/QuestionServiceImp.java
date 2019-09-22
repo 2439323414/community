@@ -33,7 +33,7 @@ public class QuestionServiceImp implements QuestionService {
     private QuestionRepository questionRepository;
     @Override
     public PaginationDTO list(Integer page,Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         PageRequest pageRequest =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPages = questionRepository.findAll(pageRequest);
@@ -59,14 +59,14 @@ public class QuestionServiceImp implements QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }
 
     @Override
     public PaginationDTO list(String accountId, Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(page - 1, size,sort);
         Specification<Question> specification = new Specification<Question>() {
@@ -100,7 +100,7 @@ public class QuestionServiceImp implements QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }
