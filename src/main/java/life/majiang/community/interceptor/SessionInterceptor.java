@@ -1,7 +1,9 @@
 package life.majiang.community.interceptor;
 
+import life.majiang.community.model.Notification;
 import life.majiang.community.model.User;
 import life.majiang.community.repository.UserRepository;
+import life.majiang.community.service.imp.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,6 +18,8 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -26,6 +30,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     User user = userRepository.findByToken(token);
                     if (user!=null){
                         request.getSession().setAttribute("user",user);
+                        Long unreadCount = notificationService.unreadCount(user.getAccountId());
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

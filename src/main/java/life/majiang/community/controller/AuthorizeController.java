@@ -25,6 +25,7 @@ public class AuthorizeController {
 
     @Autowired
     UserService userService;
+
     @Value("${github.client.id}")
     private String clientId;
     @Value("${github.client.secret}")

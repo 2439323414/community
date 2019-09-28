@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+    <link rel="stylesheet" href="/css/editormd.min.css">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -27,7 +32,15 @@
              | 阅读数: <span th:text="${question.viewCount}"></span>
             </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+                <!--                内容-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                    <textarea style="display:none;" th:text="${question.description}"></textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("question-view", {});
+                    });
+                </script>
                 <!--                标签-->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -124,13 +137,13 @@
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-rounded" th:src="${question.user.avatarUrl}" width="38px"
+                                <img class="media-object img-rounded" th:src="${session.user !=null? session.user.avatarUrl : '/images/defaultAvatar.png'}" width="38px"
                                      height="38px">
                             </a>
                         </div>
                         <div class="media-body">
                             <h5 class="media-heading">
-                                <span th:text="${question.user.name}"></span>
+                                <span th:text="${session.user !=null? session.user.name : '匿名用户'}"></span>
                             </h5>
                         </div>
                         <input type="hidden" class="type" id="question_id" th:value="${question.id}">
@@ -162,7 +175,7 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>广告</h3>
-                <img class="img-thumbnail question-img" src="/img/temp.png">
+                <img class="img-thumbnail question-img" src="/images/temp.png">
             </div>
             <!--            相关问题-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -177,5 +190,6 @@
         </div>
     </div>
 </div>
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

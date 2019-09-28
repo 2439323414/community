@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionService {
 
 
-    PaginationDTO list(Integer page, Integer size);
+    PaginationDTO listAndSearch(String search, Integer page, Integer size);
 
     PaginationDTO list(String accountId, Integer page, Integer size);
 

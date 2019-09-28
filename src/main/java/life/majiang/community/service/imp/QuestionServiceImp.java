@@ -32,7 +32,7 @@ public class QuestionServiceImp implements QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     @Override
-    public PaginationDTO list(Integer page,Integer size) {
+    public PaginationDTO listAndSearch(String search,Integer page, Integer size) {
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         PageRequest pageRequest =PageRequest.of(page - 1, size,sort);

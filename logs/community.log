@@ -1,0 +1,60 @@
+2019-09-28 12:10:25.997  INFO 12224 --- [restartedMain] l.m.community.CommunityApplication       : Starting CommunityApplication on zhaoguangxin with PID 12224 (D:\IDEAwork\community\target\classes started by 赵光鑫 in D:\IDEAwork\community)
+2019-09-28 12:10:26.004  INFO 12224 --- [restartedMain] l.m.community.CommunityApplication       : No active profile set, falling back to default profiles: default
+2019-09-28 12:10:26.067  INFO 12224 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-09-28 12:10:26.068  INFO 12224 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-09-28 12:10:27.210  INFO 12224 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-09-28 12:10:27.291  INFO 12224 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 72ms. Found 4 repository interfaces.
+2019-09-28 12:10:27.450  WARN 12224 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[life.majiang.community]' package. Please check your configuration.
+2019-09-28 12:10:27.743  INFO 12224 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c6c6f8cf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-28 12:10:28.046  INFO 12224 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-09-28 12:10:28.066  INFO 12224 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-09-28 12:10:28.067  INFO 12224 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
+2019-09-28 12:10:28.174  INFO 12224 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-09-28 12:10:28.175  INFO 12224 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2104 ms
+2019-09-28 12:10:28.245  INFO 12224 --- [restartedMain] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2019-09-28 12:10:28.574  INFO 12224 --- [restartedMain] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-09-28 12:10:28.680  INFO 12224 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-28 12:10:28.739  INFO 12224 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-28 12:10:28.740  INFO 12224 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-09-28 12:10:28.880  INFO 12224 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-28 12:10:29.106  INFO 12224 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-28 12:10:29.995  INFO 12224 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-09-28 12:10:30.035  INFO 12224 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2019-09-28 12:10:30.392  INFO 12224 --- [restartedMain] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2019-09-28 12:10:30.743  INFO 12224 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-28 12:10:30.785  WARN 12224 --- [restartedMain] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-09-28 12:10:30.817  INFO 12224 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-09-28 12:10:31.168  INFO 12224 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-09-28 12:10:31.170  INFO 12224 --- [restartedMain] l.m.community.CommunityApplication       : Started CommunityApplication in 5.658 seconds (JVM running for 11.441)
+2019-09-28 12:14:23.379  INFO 12428 --- [restartedMain] l.m.community.CommunityApplication       : Starting CommunityApplication on zhaoguangxin with PID 12428 (D:\IDEAwork\community\target\classes started by 赵光鑫 in D:\IDEAwork\community)
+2019-09-28 12:14:23.382  INFO 12428 --- [restartedMain] l.m.community.CommunityApplication       : No active profile set, falling back to default profiles: default
+2019-09-28 12:14:23.446  INFO 12428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-09-28 12:14:23.446  INFO 12428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-09-28 12:14:25.077  INFO 12428 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-09-28 12:14:25.180  INFO 12428 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92ms. Found 4 repository interfaces.
+2019-09-28 12:14:25.347  WARN 12428 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[life.majiang.community]' package. Please check your configuration.
+2019-09-28 12:14:25.615  INFO 12428 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$4807327e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-28 12:14:25.958  INFO 12428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-09-28 12:14:25.985  INFO 12428 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-09-28 12:14:25.986  INFO 12428 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.22]
+2019-09-28 12:14:26.113  INFO 12428 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-09-28 12:14:26.113  INFO 12428 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2667 ms
+2019-09-28 12:14:26.180  INFO 12428 --- [restartedMain] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2019-09-28 12:14:26.536  INFO 12428 --- [restartedMain] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2019-09-28 12:14:26.628  INFO 12428 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-09-28 12:14:26.681  INFO 12428 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2019-09-28 12:14:26.682  INFO 12428 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-09-28 12:14:26.792  INFO 12428 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-28 12:14:26.952  INFO 12428 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-09-28 12:14:27.677  INFO 12428 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-09-28 12:14:27.719  INFO 12428 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2019-09-28 12:14:28.083  INFO 12428 --- [restartedMain] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2019-09-28 12:14:28.475  INFO 12428 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-28 12:14:28.511  WARN 12428 --- [restartedMain] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-09-28 12:14:28.543  INFO 12428 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-09-28 12:14:28.972  INFO 12428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-09-28 12:14:29.171  INFO 12428 --- [restartedMain] l.m.community.CommunityApplication       : Started CommunityApplication in 6.349 seconds (JVM running for 12.034)

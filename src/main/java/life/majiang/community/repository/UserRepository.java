@@ -21,5 +21,5 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(value = "update User p set p.gmtModified = :#{#dbUser.gmtModified},p.avatarUrl= :#{#dbUser.avatarUrl},p.name= :#{#dbUser.name},p.token=:#{#dbUser.token} where p.accountId = :#{#dbUser.accountId}")
      void updateDbUser(@Param("dbUser") User dbUser);
 
-    List<User> findByAccountId(List<String> userIds);
+    List<User> findByAccountIdIn(List<String> userIds);
 }

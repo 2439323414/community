@@ -35,45 +35,61 @@ public class CommentService {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
     @Transactional
     public void save(Comment comment, User commentor) {
-        if (comment.getParentId() == null || comment.getParentId() == 0){
+        if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_NOT_FOUND);
         }
 
-        if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())){
+        if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.TYPE_PARAM_WRONG);
         }
 
-        if (comment.getType() == CommentTypeEnum.COMMENT.getType()){
+        if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //回复评论
             Optional<Comment> dbComment = commentRepository.findById(comment.getParentId());
-            if (!dbComment.isPresent()){
+            if (!dbComment.isPresent()) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NO_FOUND);
             }
-            //回复问题
+            //查询问题
             Optional<Question> question = questionRepository.findById(dbComment.get().getParentId());
-            if (!question.isPresent()){
+            if (!question.isPresent()) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentRepository.incCommentCount(dbComment.get().getId());
             commentRepository.save(comment);
-            //创建通知
-            createNotify(comment, dbComment.get().getCommentator(),commentor.getName(), question.get().getTitle(),NotificationTypeEnum.REPLY_COMMENT, dbComment.get().getParentId());
-        }else {
+            if (Objects.equals(question.get().getCreator(), dbComment.get().getCommentator())){
+                //创建通知
+                createNotify(comment, question.get().getCreator(), commentor.getName(), question.get().getTitle(), NotificationTypeEnum.REPLY_COMMENT, dbComment.get().getParentId());
+            }else {
+                if (Objects.equals(question.get().getCreator(), commentor.getAccountId())){
+                    //创建通知
+                    createNotify(comment, dbComment.get().getCommentator(), commentor.getName(), question.get().getTitle(), NotificationTypeEnum.REPLY_COMMENT, dbComment.get().getParentId());
+                }else {
+                    //创建通知
+                    createNotify(comment, question.get().getCreator(), commentor.getName(), question.get().getTitle(), NotificationTypeEnum.REPLY_COMMENT, dbComment.get().getParentId());
+                }
+
+            }
+
+        } else {
             //回复问题
             Optional<Question> question = questionRepository.findById(comment.getParentId());
-            if (!question.isPresent()){
+            if (!question.isPresent()) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             commentRepository.save(comment);
             questionRepository.incCommentCount(question.get().getId());
             //创建通知
-            createNotify(comment,question.get().getCreator(),commentor.getName(),question.get().getTitle(),NotificationTypeEnum.REPLY_QUESTION, comment.getParentId());
+            createNotify(comment, question.get().getCreator(), commentor.getName(), question.get().getTitle(), NotificationTypeEnum.REPLY_QUESTION, comment.getParentId());
         }
     }
 
     private void createNotify(Comment comment, String receiver, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Integer outerId) {
+        if (Objects.equals(receiver, comment.getCommentator())) {
+            return;
+        }
         Notification notification = new Notification();
         notification.setGmtCreat(System.currentTimeMillis());
         notification.setType(notificationType.getType());
@@ -89,7 +105,7 @@ public class CommentService {
     public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum typeEnum) {
         List<Comment> comments = commentRepository.findByParentIdAndTypeOrderByIdDesc(id, typeEnum.getType());
 
-        if (comments.size() == 0){
+        if (comments.size() == 0) {
             return new ArrayList<>();
         }
         //获取去重的评论人
@@ -97,7 +113,7 @@ public class CommentService {
         List<String> userIds = new ArrayList<>();
         userIds.addAll(commentators);
         //获取评论人转化为map
-        List<User> users = userRepository.findByAccountId(userIds);
+        List<User> users = userRepository.findByAccountIdIn(userIds);
         Map<String, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getAccountId(), user -> user));
         //转换 comment 为commentDTO
         List<CommentDTO> commentDTOS = comments.stream().map(comment -> {
