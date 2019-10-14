@@ -80,6 +80,9 @@ public class QuestionServiceImp implements QuestionService {
         if (page > paginationDTO.getTotalPage()){
             page = paginationDTO.getTotalPage();
         }
+        if(page==0){
+            page=1;
+        }
         paginationDTO.setPageination(totalPage,page,size);
         paginationDTO.setPage(page);
         PageRequest pageRequests =PageRequest.of(page - 1, size,sort);
@@ -148,6 +151,9 @@ public class QuestionServiceImp implements QuestionService {
         }
         if (page > paginationDTO.getTotalPage()){
             page = paginationDTO.getTotalPage();
+        }
+        if(page==0){
+            page=1;
         }
         paginationDTO.setPageination(totalPage,page,size);
         paginationDTO.setPage(page);

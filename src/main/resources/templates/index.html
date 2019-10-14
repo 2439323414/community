@@ -77,7 +77,9 @@
                 <h3>热门话题</h3>
                 <ul class="question-rated">
                     <li th:each="tag: ${tags}">
-                        <a th:href="@{/(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                        <a th:href="@{/(page=1,search=${search},tag=${tag})}" >  <span class="label label-info question-tags" ><span
+                                class="glyphicon glyphicon-tags" th:text="${' '+tag}" ></span>
+                                </span></a>
                     </li>
                 </ul>
             </div>

@@ -4,6 +4,7 @@ import life.majiang.community.cache.HotTagCache;
 import life.majiang.community.dto.PaginationDTO;
 
 import life.majiang.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ public class IndexController {
                         @RequestParam(name = "search",required = false) String search,
                         @RequestParam(name = "tag",required = false) String tag){
 
+        if (StringUtils.isBlank(search)){
+            search=null;
+        }
         PaginationDTO paginationDTO = questionService.listAndSearch(search,page,size,tag);
         List<String> tags = hotTagCache.getHots();
         model.addAttribute("pagination",paginationDTO);
