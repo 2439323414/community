@@ -16,8 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.expression.Lists;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class QuestionServiceImp implements QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
     @Override
-    public PaginationDTO listAndSearch(String search,Integer page, Integer size) {
+    public PaginationDTO listAndSearch(String search, Integer page, Integer size, String tag) {
         if (StringUtils.isNotBlank(search)){
              search = StringUtils.replace(search, " ", "|");
         }else {
@@ -44,21 +44,29 @@ public class QuestionServiceImp implements QuestionService {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         PageRequest pageRequest =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPages;
-        if (search==null){
+        if (search==null && tag==null){
              questionPages = questionRepository.findAll(pageRequest);
         }else {
             String finalSearch = search;
+            String finalTag=tag;
             Specification<Question> specification = new Specification<Question>() {
                 @Override
                 public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                    Path path = root.get("title");
-                    List<Predicate> predicates = new ArrayList<>();
-                    String[] splits = finalSearch.split("\\|");
-                    for (String split :splits) {
-                        predicates.add(criteriaBuilder
-                                .like(path, "%" + split + "%"));
+                    Predicate predicate = null;
+                    if (StringUtils.isNotBlank(finalSearch)){
+                        Path path = root.get("title");
+                        List<Predicate> predicates = new ArrayList<>();
+                        String[] splits = finalSearch.split("\\|");
+                        for (String split :splits) {
+                            predicates.add(criteriaBuilder
+                                    .like(path, "%" + split + "%"));
+                        }
+                         predicate = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
                     }
-                    Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+
+                    if (StringUtils.isNotBlank(finalTag)){
+                        predicate = criteriaBuilder.and(criteriaBuilder.like(root.get("tag"), "%" + finalTag + "%"));
+                    }
                     return predicate;
                 }
             };
@@ -76,21 +84,29 @@ public class QuestionServiceImp implements QuestionService {
         paginationDTO.setPage(page);
         PageRequest pageRequests =PageRequest.of(page - 1, size,sort);
         Page<Question> questionPage;
-        if (search==null){
+        if (search==null && tag==null){
             questionPage = questionRepository.findAll(pageRequest);
         }else {
             String finalSearch = search;
+            String finalTag=tag;
             Specification<Question> specification = new Specification<Question>() {
                 @Override
                 public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                    Path path = root.get("title");
-                    List<Predicate> predicates = new ArrayList<>();
-                    String[] splits = finalSearch.split("\\|");
-                    for (String split :splits) {
-                        predicates.add(criteriaBuilder
-                                .like(path, "%" + split + "%"));
+                    Predicate predicate = null;
+                    if (StringUtils.isNotBlank(finalSearch)){
+                        Path path = root.get("title");
+                        List<Predicate> predicates = new ArrayList<>();
+                        String[] splits = finalSearch.split("\\|");
+                        for (String split :splits) {
+                            predicates.add(criteriaBuilder
+                                    .like(path, "%" + split + "%"));
+                        }
+                        predicate = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
                     }
-                    Predicate predicate = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+
+                    if (StringUtils.isNotBlank(finalTag)){
+                        predicate = criteriaBuilder.and(criteriaBuilder.like(root.get("tag"), "%" + finalTag + "%"));
+                    }
                     return predicate;
                 }
             };
