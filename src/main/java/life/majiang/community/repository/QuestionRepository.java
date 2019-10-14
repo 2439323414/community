@@ -1,6 +1,9 @@
 package life.majiang.community.repository;
 
 import life.majiang.community.model.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<Question,Integer>, JpaSpecificationExecutor<Question> {
+public interface QuestionRepository extends JpaRepository<Question,Integer>, JpaSpecificationExecutor<Question>{
     public Optional<Question> findById(Integer id);
 
 
@@ -34,6 +37,5 @@ public interface QuestionRepository extends JpaRepository<Question,Integer>, Jpa
 
     @Query(value = "SELECT * from question where id != :#{#question.id} and tag regexp :#{#question.tag} ",nativeQuery=true)
     List<Question> selectRelated(@Param("question") Question question);
-
 
 }

@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.expression.Lists;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -33,10 +34,36 @@ public class QuestionServiceImp implements QuestionService {
     private QuestionRepository questionRepository;
     @Override
     public PaginationDTO listAndSearch(String search,Integer page, Integer size) {
+        if (StringUtils.isNotBlank(search)){
+             search = StringUtils.replace(search, " ", "|");
+        }else {
+            search =null;
+        }
+
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         Sort sort = new Sort(Sort.Direction.DESC, "id");
         PageRequest pageRequest =PageRequest.of(page - 1, size,sort);
-        Page<Question> questionPages = questionRepository.findAll(pageRequest);
+        Page<Question> questionPages;
+        if (search==null){
+             questionPages = questionRepository.findAll(pageRequest);
+        }else {
+            String finalSearch = search;
+            Specification<Question> specification = new Specification<Question>() {
+                @Override
+                public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                    Path path = root.get("title");
+                    List<Predicate> predicates = new ArrayList<>();
+                    String[] splits = finalSearch.split("\\|");
+                    for (String split :splits) {
+                        predicates.add(criteriaBuilder
+                                .like(path, "%" + split + "%"));
+                    }
+                    Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                    return predicate;
+                }
+            };
+            questionPages = questionRepository.findAll(specification,pageRequest);
+        }
         Integer totalPage = questionPages.getTotalPages();
         paginationDTO.setTotalPage(totalPage);
         if (page<1){
@@ -48,7 +75,27 @@ public class QuestionServiceImp implements QuestionService {
         paginationDTO.setPageination(totalPage,page,size);
         paginationDTO.setPage(page);
         PageRequest pageRequests =PageRequest.of(page - 1, size,sort);
-        Page<Question> questionPage = questionRepository.findAll(pageRequests);
+        Page<Question> questionPage;
+        if (search==null){
+            questionPage = questionRepository.findAll(pageRequest);
+        }else {
+            String finalSearch = search;
+            Specification<Question> specification = new Specification<Question>() {
+                @Override
+                public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                    Path path = root.get("title");
+                    List<Predicate> predicates = new ArrayList<>();
+                    String[] splits = finalSearch.split("\\|");
+                    for (String split :splits) {
+                        predicates.add(criteriaBuilder
+                                .like(path, "%" + split + "%"));
+                    }
+                    Predicate predicate = criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+                    return predicate;
+                }
+            };
+            questionPage = questionRepository.findAll(specification,pageRequest);
+        }
         List<Question> questions = questionPage.getContent();
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
