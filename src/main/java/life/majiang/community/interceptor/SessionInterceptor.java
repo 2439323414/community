@@ -3,6 +3,7 @@ package life.majiang.community.interceptor;
 import life.majiang.community.model.Notification;
 import life.majiang.community.model.User;
 import life.majiang.community.repository.UserRepository;
+import life.majiang.community.service.imp.AdService;
 import life.majiang.community.service.imp.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
@@ -20,8 +22,15 @@ public class SessionInterceptor implements HandlerInterceptor {
     UserRepository userRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private AdService adService;
+    private String redirectUri;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //设置context级别的属性  目前没用
+        request.getServletContext().setAttribute("redirectUri",redirectUri);
+        //没有登录的时候可以查看导航 session也可以哦
+        request.getServletContext().setAttribute("ads",adService.list());
         Cookie[] cookies = request.getCookies();
         if(cookies!=null&&cookies.length!=0){
             for (Cookie cookie:cookies) {

@@ -27,4 +27,3 @@ logging.file.max-history=30
 
 server.port=80
 
-
